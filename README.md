@@ -11,11 +11,11 @@ This project is being progressively expanded as a learning exercise to explore:
 
 
 
-# Game of Life: Boundary Conditions Comparison
+# Game_of_life_data: Game of Life: Boundary Conditions Comparison
 
 ## Overview
 
-This project implements Conway's Game of Life in C and compares the evolution of the system under three different boundary conditions:
+Game_of_life_data implements Conway's Game of Life in C and compares the evolution of the system under three different boundary conditions:
 
 * Closed boundaries
 * Periodic boundaries (torus topology)
