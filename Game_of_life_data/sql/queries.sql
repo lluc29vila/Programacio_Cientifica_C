@@ -1,0 +1,1 @@
+SELECT generation, COUNT(*) AS alive_cells FROM life WHERE state = 1 GROUP BY generation ORDER BY generation;

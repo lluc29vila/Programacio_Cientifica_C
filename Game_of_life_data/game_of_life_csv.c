@@ -13,11 +13,16 @@ int count_neighbors_periodic(int **grid, int rows, int cols, int i, int j);
 int count_neighbors_mobius(int **grid, int rows, int cols, int i, int j);
 void update_grid(int** current, int** next, int rows, int cols, Counter count);
 void free_grid(int** grid, int rows);
+void save_generation(FILE *out, int **grid, int rows, int cols, int generation, const char *topology);
 
 
 int main(void){
+
+	FILE *out;
 	char nameE[80];
-	int i, j, rows, cols, continuar, pas;
+
+	int i, j, rows, cols, pas;
+	int generations = 100;
 	int **current, **next, **aux, **cur_period, **next_period, **cur_mobius, **next_mobius;
 
 	printf("What is de name of the input document? ");
@@ -99,26 +104,29 @@ int main(void){
 		}
 	}
 	
+	/*Obro fitxer on es guarden les dades*/
+	out = fopen("life.csv", "w");
+	if(out == NULL){
+		printf("Error al abrir fitxero\n");
+		return 1;
+	}
 
-	continuar = 1;
-	pas = 0;
-
-	printf("==================================== PAS %d ==================================\n\n", pas); /*Imprimeixo el mon inicial*/
+	/*Cabecera*/
+	fprintf(out, "generation,row_num,col_num,state,topology\n");
+	/*Imprimeixo el mon inicial*/
+	printf("\n------------Initial World--------------\n");
 	print_comp(current, cur_period, cur_mobius, rows, cols);
 
-	do{
+	save_generation(out, current, rows, cols, 0, "closed");
+	save_generation(out, cur_period, rows, cols, 0, "periodic");
+	save_generation(out, cur_mobius, rows, cols, 0, "mobius");
 
-		printf("\nDo you want to continue (Yes = 1 No = 0)? ");
-		scanf(" %d", &continuar);
-		if(continuar != 1){
-			free_grid(current, rows);
-			free_grid(next, rows);
-			free_grid(cur_period, rows);
-			free_grid(next_period, rows);
-			free_grid(cur_mobius, rows);
-			free_grid(next_mobius, rows);
-			return 1;
-		}
+	
+	if(generations <= 10) printf("Generating %d generations\n", generations);
+
+	for(pas = 1; pas <= generations; pas++){
+
+		if(generations <= 10) printf("Generation %d\n", pas);
 
 		/*Update tancada*/
 	
@@ -144,14 +152,15 @@ int main(void){
 		cur_mobius = next_mobius;
 		next_mobius = aux;
 
+		if(generations <= 10) print_comp(current, cur_period, cur_mobius, rows, cols);
 
-		pas++;
+		save_generation(out, current, rows, cols, pas, "closed");
+		save_generation(out, cur_period, rows, cols, pas, "periodic");
+		save_generation(out, cur_mobius, rows, cols, pas, "mobius");
 
-		printf("==================================== PAS %d ==================================\n\n", pas);
-		printf("-----TANCADA------       ---------PERIODICA-------     ---------MOBIUS--------\n");
-		print_comp(current, cur_period, cur_mobius, rows, cols);
+	}
 
-	}while(continuar == 1);
+	fclose(out);
 
 	free_grid(current, rows);
 	free_grid(next, rows);
@@ -325,4 +334,14 @@ int** read_grid(const char* filename, int* rows, int* cols){
 
 	fclose(inp);
 	return M;
+}
+
+void save_generation(FILE *out, int **grid, int rows, int cols, int generation, const char *topology){
+	int i, j;
+
+	for(i = 0; i < rows; i++){
+		for(j = 0; j < cols; j++){
+			fprintf(out, "%d,%d,%d,%d,%s\n", generation, i, j, grid[i][j], topology);
+		}
+	}
 }
