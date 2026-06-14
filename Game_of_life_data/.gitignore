@@ -2,8 +2,5 @@
 *.o
 *.exe
 
-# Archivos CSV generados
-*.csv
-
 # Bases de datos locales
 *.db
