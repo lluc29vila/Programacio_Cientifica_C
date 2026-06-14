@@ -1,0 +1,12 @@
+# Archivos compilados de C
+*.o
+*.exe
+
+# Archivos CSV generados
+*.csv
+
+# Archivos temporales de VSCode
+.vscode/
+
+# Bases de datos locales
+*.db
