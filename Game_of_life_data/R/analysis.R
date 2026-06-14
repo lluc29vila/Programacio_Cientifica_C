@@ -50,3 +50,6 @@ ggplot(alive_per_gen,
     y = "Células vivas",
     color = "Topología"
   )
+
+####Curso ggplot2
+ggplot(life)

@@ -13,7 +13,7 @@ int count_neighbors_periodic(int **grid, int rows, int cols, int i, int j);
 int count_neighbors_mobius(int **grid, int rows, int cols, int i, int j);
 void update_grid(int** current, int** next, int rows, int cols, Counter count);
 void free_grid(int** grid, int rows);
-void save_generation(FILE *out, int **grid, int rows, int cols, int generation, const char *topology);
+void save_generation(FILE *out, int **grid, int rows, int cols, int generation, const char *topology, int run_id);
 
 
 int main(void){
@@ -22,11 +22,14 @@ int main(void){
 	char nameE[80];
 
 	int i, j, rows, cols, pas;
-	int generations = 100;
+	int generations, run_id;
 	int **current, **next, **aux, **cur_period, **next_period, **cur_mobius, **next_mobius;
 
-	printf("What is de name of the input document? ");
+	/*printf("What is de name of the input document? ");*/
 	scanf(" %s", nameE);
+	scanf(" %d", &generations);
+	scanf(" %d", &run_id);
+
 	current = read_grid(nameE, &rows, &cols);
 
 	next = (int**)malloc(rows*sizeof(int*));
@@ -105,7 +108,7 @@ int main(void){
 	}
 	
 	/*Obro fitxer on es guarden les dades*/
-	out = fopen("life.csv", "w");
+	out = fopen("data/life.csv", "w");
 	if(out == NULL){
 		printf("Error al abrir fitxero\n");
 		return 1;
@@ -117,9 +120,9 @@ int main(void){
 	printf("\n------------Initial World--------------\n");
 	print_comp(current, cur_period, cur_mobius, rows, cols);
 
-	save_generation(out, current, rows, cols, 0, "closed");
-	save_generation(out, cur_period, rows, cols, 0, "periodic");
-	save_generation(out, cur_mobius, rows, cols, 0, "mobius");
+	save_generation(out, current, rows, cols, 0, "closed", run_id);
+	save_generation(out, cur_period, rows, cols, 0, "periodic", run_id);
+	save_generation(out, cur_mobius, rows, cols, 0, "mobius", run_id);
 
 	
 	if(generations <= 10) printf("Generating %d generations\n", generations);
@@ -154,9 +157,9 @@ int main(void){
 
 		if(generations <= 10) print_comp(current, cur_period, cur_mobius, rows, cols);
 
-		save_generation(out, current, rows, cols, pas, "closed");
-		save_generation(out, cur_period, rows, cols, pas, "periodic");
-		save_generation(out, cur_mobius, rows, cols, pas, "mobius");
+		save_generation(out, current, rows, cols, pas, "closed", run_id);
+		save_generation(out, cur_period, rows, cols, pas, "periodic", run_id);
+		save_generation(out, cur_mobius, rows, cols, pas, "mobius", run_id);
 
 	}
 
@@ -336,12 +339,12 @@ int** read_grid(const char* filename, int* rows, int* cols){
 	return M;
 }
 
-void save_generation(FILE *out, int **grid, int rows, int cols, int generation, const char *topology){
+void save_generation(FILE *out, int **grid, int rows, int cols, int generation, const char *topology, int run_id){
 	int i, j;
 
 	for(i = 0; i < rows; i++){
 		for(j = 0; j < cols; j++){
-			fprintf(out, "%d,%d,%d,%d,%s\n", generation, i, j, grid[i][j], topology);
+			fprintf(out, "%d,%d,%d,%d,%d,%s\n", run_id, generation, i, j, grid[i][j], topology);
 		}
 	}
 }

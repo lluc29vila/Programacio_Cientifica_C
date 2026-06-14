@@ -1,14 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 
 int main(void){
     int **M, i, j, rows, cols;
+    double seed;
     FILE *out;
 
-    srand(time(NULL));
+    scanf(" %d %d %lf", &rows, &cols, &seed);
 
-    scanf(" %d %d", &rows, &cols);
+    srand(seed);
 
     M = (int**)malloc(rows*sizeof(int*));
     if(M == NULL){

@@ -5,8 +5,5 @@
 # Archivos CSV generados
 *.csv
 
-# Archivos temporales de VSCode
-.vscode/
-
 # Bases de datos locales
 *.db
