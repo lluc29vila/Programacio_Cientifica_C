@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef int(*Counter)(int**, int, int, int, int);
 int** read_grid(const char* filename, int* rows, int* cols);
