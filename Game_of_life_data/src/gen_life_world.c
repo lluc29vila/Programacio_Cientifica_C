@@ -1,12 +1,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int main(void){
+int main(int argc, char *argv[]){
     int **M, i, j, rows, cols;
     double seed;
     FILE *out;
 
-    scanf(" %d %d %lf", &rows, &cols, &seed);
+    if (argc != 4) {
+        printf("Usage: %s rows cols seed\n", argv[0]);
+        return 1;
+    }
+
+    rows = atoi(argv[1]);
+    cols = atoi(argv[2]);
+    seed = atoi(argv[3]);
 
     srand(seed);
 

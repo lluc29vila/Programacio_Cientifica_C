@@ -31,7 +31,7 @@ read -p "Generations: " GENERATIONS
 read -p "Number of experiments: " N_EXPERIMENTS
 
 #PSQL
-PSQL="psql -U postgres -d gameoflife -t -A"
+PSQL="psql -U postgres -d gameoflife -t -A -q"
 
 echo ""
 echo "Starting experiments..."
@@ -39,7 +39,7 @@ echo ""
 
 #Lleno datos Tabla experimentos y guardo el experimento_id
 EXPERIMENT_ID=$($PSQL -c "INSERT INTO experiments (rows, cols, generations, num_runs) VALUES ($ROWS, $COLS, $GENERATIONS, $N_EXPERIMENTS) RETURNING experiment_id;")
-EXPERIMENT_ID=$(echo "$EXPERIMENT_ID" | xargs)
+EXPERIMENT_ID=$(echo "$EXPERIMENT_ID" | tail -n 1 | xargs)
 
 for ((RUN_NUM=1; RUN_NUM<=N_EXPERIMENTS; RUN_NUM++))
 do
@@ -50,13 +50,13 @@ do
     echo "Generating initial world..."
 
     #Semilla aleatoria
-    SEED=$((RANDOM * RANDOM))
+    SEED=$((RANDOM))
     ./src/gen_life_world.exe "$ROWS" "$COLS" "$SEED"
 
     echo "Running simulation..."
 
     RUN_ID=$($PSQL -c "INSERT INTO runs(experiment_id, seed) VALUES($EXPERIMENT_ID, $SEED) RETURNING run_id;")
-    RUN_ID=$(echo "$RUN_ID" | xargs)
+    RUN_ID=$(echo "$RUN_ID" | tail -n 1 | xargs)
 
     echo "experiment_id = $EXPERIMENT_ID"
     echo "run_id = $RUN_ID"

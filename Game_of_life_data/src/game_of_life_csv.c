@@ -16,7 +16,7 @@ void free_grid(int** grid, int rows);
 void save_generation(FILE *out, int **grid, int rows, int cols, int generation, const char *topology, int run_id);
 
 
-int main(void){
+int main(int argc, char * argv[]){
 
 	FILE *out;
 	char nameE[80];
@@ -25,10 +25,16 @@ int main(void){
 	int generations, run_id;
 	int **current, **next, **aux, **cur_period, **next_period, **cur_mobius, **next_mobius;
 
-	/*printf("What is de name of the input document? ");*/
-	scanf(" %s", nameE);
-	scanf(" %d", &generations);
-	scanf(" %d", &run_id);
+	/*printf("What is de name of the input document? ");
+	scanf(" %s", nameE);*/
+	if(argc != 4){
+		printf("Usage: %s input generations run_id\n", argv[0]);
+		return 1;
+	}
+	
+	strcpy(nameE, argv[1]);
+	generations = atoi(argv[2]);
+	run_id = atoi(argv[3]);
 
 	current = read_grid(nameE, &rows, &cols);
 
