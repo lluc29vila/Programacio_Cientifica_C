@@ -115,17 +115,17 @@ int main(int argc, char * argv[]){
 	}
 	
 	/*Obro fitxer on es guarden les dades*/
-	out = fopen("data/life.csv", "w");
+	out = fopen("data/outputs/life.csv", "w");
 	if(out == NULL){
 		printf("Error al abrir fitxero\n");
 		return 1;
 	}
 
 	/*Cabecera*/
-	fprintf(out, "generation,row_num,col_num,state,topology\n");
+	fprintf(out, "run_id,generation,row_num,col_num,state,topology\n");
 	/*Imprimeixo el mon inicial*/
-	printf("\n------------Initial World--------------\n");
-	print_comp(current, cur_period, cur_mobius, rows, cols);
+	/*printf("\n------------Initial World--------------\n");
+	print_comp(current, cur_period, cur_mobius, rows, cols);*/
 
 	save_generation(out, current, rows, cols, 0, "closed", run_id);
 	save_generation(out, cur_period, rows, cols, 0, "periodic", run_id);
@@ -136,7 +136,7 @@ int main(int argc, char * argv[]){
 
 	for(pas = 1; pas <= generations; pas++){
 
-		if(generations <= 10) printf("Generation %d\n", pas);
+		/*if(generations <= 10) printf("Generation %d\n", pas);*/
 
 		/*Update tancada*/
 	
@@ -162,7 +162,7 @@ int main(int argc, char * argv[]){
 		cur_mobius = next_mobius;
 		next_mobius = aux;
 
-		if(generations <= 10) print_comp(current, cur_period, cur_mobius, rows, cols);
+		/*if(generations <= 10) print_comp(current, cur_period, cur_mobius, rows, cols);*/
 
 		save_generation(out, current, rows, cols, pas, "closed", run_id);
 		save_generation(out, cur_period, rows, cols, pas, "periodic", run_id);

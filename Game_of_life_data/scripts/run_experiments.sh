@@ -62,12 +62,12 @@ do
     echo "run_id = $RUN_ID"
     echo "seed = $SEED"
 
-    ./src/game_of_life_csv.exe data/life_input.txt "$GENERATIONS" "$RUN_ID"
+    ./src/game_of_life_csv.exe data/inputs/life_input.txt "$GENERATIONS" "$RUN_ID"
 
     echo "Simulation completed."
 
     # Importar datos
-    $PSQL -c "\copy life(run_id,generation,row_num,col_num,state,topology) FROM 'data/life.csv' WITH (FORMAT csv, HEADER true);"
+    $PSQL -c "\copy life(run_id,generation,row_num,col_num,state,topology) FROM 'data/outputs/life.csv' WITH (FORMAT csv, HEADER true);"
     if [ $? -ne 0 ]; 
         then
         echo "Error importing CSV."

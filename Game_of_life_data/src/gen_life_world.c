@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-    out = fopen("life_input.txt", "w");
+    out = fopen("data/inputs/life_input.txt", "w");
     if(out == NULL) return 1;
 
     fprintf(out, "%d %d\n", rows, cols);

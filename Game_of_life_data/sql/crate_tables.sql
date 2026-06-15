@@ -27,7 +27,6 @@ CREATE TABLE life (
     PRIMARY KEY (
         run_id,
         topology,
-        num_gen
         generation,
         row_num,
         col_num
