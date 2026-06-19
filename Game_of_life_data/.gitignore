@@ -1,6 +1,6 @@
-# Archivos compilados de C
 *.o
 *.exe
-
-# Bases de datos locales
 *.db
+Game_of_life_data/data/outputs/*.csv
+.Renviron
+*.gif

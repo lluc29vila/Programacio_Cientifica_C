@@ -1,0 +1,3 @@
+DB_NAME=gameoflife
+DB_HOST=localhost
+DB_USER=postgres
