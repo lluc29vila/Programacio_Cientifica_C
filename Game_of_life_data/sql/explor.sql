@@ -1,16 +1,10 @@
--- Ver todos los experimentos
-SELECT * FROM experiments;
-
--- Ver todos los runs y a qué experimento pertenecen
-SELECT * FROM runs;
-
 -- Contar cuántas filas tiene cada run en la tabla life
 SELECT run_id, COUNT(*) AS total_filas
 FROM life
 GROUP BY run_id
 ORDER BY run_id;
 
--- Ver qué topologías existen
+-- Ver qué topologías existen 
 SELECT DISTINCT topology FROM life;
 
 -- Ver el rango de generaciones por run
@@ -18,7 +12,7 @@ SELECT run_id, MIN(generation) AS gen_min, MAX(generation) AS gen_max
 FROM life
 GROUP BY run_id;
 
--- Ver tamaño del tablero (filas x columnas) por run
+-- Ver tamaño del tablero (filas x columnas) por run (Se le suma 1 para contar el mundo inicial)
 SELECT run_id, MAX(row_num)+1 AS filas, MAX(col_num)+1 AS columnas
 FROM life
 GROUP BY run_id;
