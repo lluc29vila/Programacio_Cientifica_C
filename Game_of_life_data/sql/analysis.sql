@@ -75,3 +75,21 @@ FROM (
 JOIN runs r ON sub.run_id = r.run_id
 JOIN experiments e ON r.experiment_id = e.experiment_id
 GROUP BY e.experiment_id, e.rows, e.cols;
+
+-- Tabla anterior añadiendo maximos y minimos, desviación estandar y porcentiles
+SELECT 
+    topology, 
+    generation, 
+    AVG(celulas_vivas) AS promedio_vivas,
+    STDDEV(celulas_vivas) AS sd_vivas,
+    MIN(celulas_vivas) AS min_vivas,
+    MAX(celulas_vivas) AS max_vivas
+  FROM (
+    SELECT l.run_id, l.topology, l.generation, SUM(l.state) AS celulas_vivas
+    FROM life l
+    JOIN runs r ON l.run_id = r.run_id
+    WHERE r.experiment_id = 10
+    GROUP BY l.run_id, l.topology, l.generation
+  ) sub
+  GROUP BY topology, generation
+  ORDER BY topology, generation;q
